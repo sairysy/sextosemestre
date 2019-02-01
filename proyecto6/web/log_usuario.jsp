@@ -36,7 +36,7 @@ $(document).ready(function(c) {
 
 </head>
 <body>
-<script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script><script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+<script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js'></script><script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
 <script>
 (function(){
 	if(typeof _bsa !== 'undefined' && _bsa) {
