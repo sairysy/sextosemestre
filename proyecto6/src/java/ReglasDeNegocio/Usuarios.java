@@ -160,8 +160,10 @@ public class Usuarios {
           //CREAMOS EL ARRALIST DE PARAMETROS PARA ASIGANR A MI PRIMER COMANDO
           ArrayList<Parametro> parametros = new ArrayList<Parametro>();
           //llenamos el arraylist con todos los parametros
+           StringEncrypter encripter= new StringEncrypter("Aplicaciones web");
+          String ppasw=encripter.encrypt(usuarios.getContrasenia());
           parametros.add(new Parametro(1, usuarios.getNombre_usuario()));
-          parametros.add(new Parametro(2, usuarios.getContrasenia()));
+          parametros.add(new Parametro(2, ppasw));
           parametros.add(new Parametro(3, usuarios.getCedula()));
           
           //llenar el comando con los parametros
@@ -197,8 +199,7 @@ public class Usuarios {
           //llenamos el arraylist con todos los parametros
 
           
-          StringEncrypter encripter= new StringEncrypter("Aplicaciones web");
-          String ppasw=encripter.encrypt(usuarios.getContrasenia());
+       
           parametros.add(new Parametro(1, usuarios.getUsuarioid()));
           parametros.add(new Parametro(2, usuarios.getNombre_usuario()));
           parametros.add(new Parametro(4, usuarios.getCedula()));
