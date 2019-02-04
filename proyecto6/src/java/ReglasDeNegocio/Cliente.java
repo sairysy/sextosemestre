@@ -97,7 +97,10 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+    @Override
+    public String toString() {
+        return getNombres();
+    }
     public static ArrayList<Cliente> cliente_buscartodos() throws Exception
     {
          //CREO LISTA QUE RECIBIRA LOS DATOS DEL RESULSET

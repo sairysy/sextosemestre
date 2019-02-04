@@ -118,7 +118,7 @@ public class Venta {
               Cliente clientes=cliente.cliente_buscarporid(rs.getInt("pclienteid"));
               obj.setCliente(clientes);
               Producto producto=new Producto();
-              Producto productos=producto.producto_buscarporid(rs.getInt("pproductod"));
+              Producto productos=producto.producto_buscarporid(rs.getInt("pproductoid"));
               obj.setProducto(productos);
               obj.setCantidad(rs.getInt("pcantidad"));
               obj.setPreciounitarioventa(rs.getDouble("ppreciounitarioventa"));

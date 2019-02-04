@@ -98,8 +98,9 @@ ga('create', 'UA-30027142-1', 'w3layouts.com');
 					</form>
 				</div>
 				<a href="#">Olvidó su contraseña</a>
-				<a href="#" class="login-right">Registrar</a>
+				<a href="mod_inventario/usuarios/nuevo.jsp" class="login-right">Registrar</a>
 				<div class="clear"></div>
+                             
 			</div>
 			<div class="hotel-right">
 				<h3>VARIEDADES CARLITA <span>ROPA AMERICANA</span></h3>
