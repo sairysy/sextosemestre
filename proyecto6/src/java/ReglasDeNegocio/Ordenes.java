@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ReglasDeNegocio;
 import AccesoADatos.*;
@@ -10,42 +5,45 @@ import java.sql.*;
 import java.util.*;
 import java.sql.Time;
 
-public class Venta {
-  private int ventaid;
-  private Cliente cliente;
+public class Ordenes {
+  private int ordenid;
+  private Proveedores proveedores;
   private Producto producto;
   private int cantidad;
-  private double  preciounitarioventa;
-  private Time fechatransaccion;
+  private double  preciounitario;
+  private  String numeroorden;
   private String numerofactura;
-
-    public Venta() {
+  private boolean entregada;
+  private Timestamp  fechaentrega;
+    public Ordenes() {
     }
 
-    public Venta(int ventaid, Cliente cliente, Producto producto, int cantidad, double preciounitarioventa, Time fechatransaccion, String numerofactura) {
-        this.ventaid = ventaid;
-        this.cliente = cliente;
+    public Ordenes(int ordenid, Proveedores proveedores, Producto producto, int cantidad, double preciounitario, String numeroorden, String numerofactura, boolean entregada, Timestamp fechaentrega) {
+        this.ordenid = ordenid;
+        this.proveedores = proveedores;
         this.producto = producto;
         this.cantidad = cantidad;
-        this.preciounitarioventa = preciounitarioventa;
-        this.fechatransaccion = fechatransaccion;
+        this.preciounitario = preciounitario;
+        this.numeroorden = numeroorden;
         this.numerofactura = numerofactura;
+        this.entregada = entregada;
+        this.fechaentrega = fechaentrega;
     }
 
-    public int getVentaid() {
-        return ventaid;
+    public int getOrdenid() {
+        return ordenid;
     }
 
-    public void setVentaid(int ventaid) {
-        this.ventaid = ventaid;
+    public void setOrdenid(int ordenid) {
+        this.ordenid = ordenid;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Proveedores getProveedores() {
+        return proveedores;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setProveedores(Proveedores proveedores) {
+        this.proveedores = proveedores;
     }
 
     public Producto getProducto() {
@@ -64,20 +62,20 @@ public class Venta {
         this.cantidad = cantidad;
     }
 
-    public double getPreciounitarioventa() {
-        return preciounitarioventa;
+    public double getPreciounitario() {
+        return preciounitario;
     }
 
-    public void setPreciounitarioventa(double preciounitarioventa) {
-        this.preciounitarioventa = preciounitarioventa;
+    public void setPreciounitario(double preciounitario) {
+        this.preciounitario = preciounitario;
     }
 
-    public Time getFechatransaccion() {
-        return fechatransaccion;
+    public String getNumeroorden() {
+        return numeroorden;
     }
 
-    public void setFechatransaccion(Time fechatransaccion) {
-        this.fechatransaccion = fechatransaccion;
+    public void setNumeroorden(String numeroorden) {
+        this.numeroorden = numeroorden;
     }
 
     public String getNumerofactura() {
@@ -88,14 +86,31 @@ public class Venta {
         this.numerofactura = numerofactura;
     }
 
-  
+    public boolean getEntregada() {
+        return entregada;
+    }
+
+    public void setEntregada(boolean entregada) {
+        this.entregada = entregada;
+    }
+
+    public Timestamp getFechaentrega() {
+        return fechaentrega;
+    }
+
+    public void setFechaentrega(Timestamp fechaentrega) {
+        this.fechaentrega = fechaentrega;
+    }
+
+
+   
     
     
-    public static ArrayList<Venta> venta_buscartodos() throws Exception
+    public static ArrayList<Ordenes> ordenes_buscartodos() throws Exception
     {
          //CREO LISTA QUE RECIBIRA LOS DATOS DEL RESULSET
-        ArrayList<Venta> lista= new ArrayList<Venta>();
-          Venta obj= new Venta();
+        ArrayList<Ordenes> lista= new ArrayList<Ordenes>();
+          Ordenes obj= new Ordenes();
        ResultSet rs= null;
       //LLAMO LA CONEXION
       Conexion con= new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -104,7 +119,7 @@ public class Venta {
 
       try {
           //declaro mi sql
-          String sql= "select * from public.venta_buscartodos()";
+          String sql= "select * from public.ordenes_buscartodos()";
           //creo mi preparedstatement
           preStm=con.creaPreparedSmt(sql);
           //ejecuto el prepardestatement y le asigno a mi resulset
@@ -112,18 +127,19 @@ public class Venta {
           rs= con.ejecutaPrepared(preStm);
           obj=null;
           while (rs.next()) {
-              obj= new Venta();
-              obj.setVentaid(rs.getInt("pventaid"));
-              Cliente cliente=new Cliente();
-              Cliente clientes=cliente.cliente_buscarporid(rs.getInt("pclienteid"));
-              obj.setCliente(clientes);
+              obj= new Ordenes();
+              obj.setOrdenid(rs.getInt("pordenid"));
+              Proveedores proveedores=new Proveedores();
+              Proveedores proveedoress=proveedores.proveedores_buscarporid(rs.getInt("pproveedorid"));
+              obj.setProveedores(proveedoress);
               Producto producto=new Producto();
-              Producto productos=producto.producto_buscarporid(rs.getInt("pproductod"));
+              Producto productos=producto.producto_buscarporid(rs.getInt("pproductoid"));
               obj.setProducto(productos);
               obj.setCantidad(rs.getInt("pcantidad"));
-              obj.setPreciounitarioventa(rs.getDouble("ppreciounitarioventa"));
-              obj.setFechatransaccion(rs.getTime("pfechatransaccion"));
-              obj.setNumerofactura(rs.getString("pnumerofactura"));
+              obj.setPreciounitario(rs.getDouble("ppreciounitario"));
+              obj.setNumeroorden(rs.getString("pnumeroorden"));
+              obj.setEntregada(rs.getBoolean("pentregada"));
+              obj.setFechaentrega(rs.getTimestamp("pFechaentrega"));
               lista.add(obj);
           }
       } catch (SQLException e) {
@@ -139,11 +155,11 @@ public class Venta {
 
     }
     
-    public static Venta venta_buscarporid(int pscactbevidenid) throws Exception
+    public static Ordenes ordenes_buscarporid(int pscactbevidenid) throws Exception
     {
          //CREO LISTA QUE RECIBIRA LOS DATOS DEL RESULSET
-       ArrayList<Venta> lista= new ArrayList<Venta>();
-       Venta obj= new Venta();
+       ArrayList<Ordenes> lista= new ArrayList<Ordenes>();
+       Ordenes obj= new Ordenes();
        ResultSet rs= null;
       //LLAMO LA CONEXION
       Conexion con= new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -152,7 +168,7 @@ public class Venta {
        
       try {
           //declaro mi sql
-          String sql= "select * from public.venta_buscarporid(?)";
+          String sql= "select * from public.ordenes_buscarporid(?)";
           //creo mi preparedstatement
           preStm=con.creaPreparedSmt(sql);
           //ejecuto el prepardestatement y le asigno a mi resulset
@@ -160,18 +176,19 @@ public class Venta {
           rs= con.ejecutaPrepared(preStm);
           obj=null;
           while (rs.next()) {
-              obj= new Venta();
-              obj.setVentaid(rs.getInt("pventaid"));
-              Cliente cliente=new Cliente();
-              Cliente clientes=cliente.cliente_buscarporid(rs.getInt("pclienteid"));
-              obj.setCliente(clientes);
+              obj= new Ordenes();
+              obj.setOrdenid(rs.getInt("pordenid"));
+              Proveedores proveedores=new Proveedores();
+              Proveedores proveedoress=proveedores.proveedores_buscarporid(rs.getInt("pproveedorid"));
+              obj.setProveedores(proveedoress);
               Producto producto=new Producto();
-              Producto productos=producto.producto_buscarporid(rs.getInt("pproductod"));
+              Producto productos=producto.producto_buscarporid(rs.getInt("pproductoid"));
               obj.setProducto(productos);
               obj.setCantidad(rs.getInt("pcantidad"));
-              obj.setPreciounitarioventa(rs.getDouble("ppreciounitarioventa"));
-              obj.setFechatransaccion(rs.getTime("pfechatransaccion"));
-              obj.setNumerofactura(rs.getString("pnumerofactura"));
+              obj.setPreciounitario(rs.getDouble("ppreciounitario"));
+              obj.setNumeroorden(rs.getString("pnumeroorden"));
+              obj.setEntregada(rs.getBoolean("pentregada"));
+              obj.setFechaentrega(rs.getTimestamp("pFechaentrega"));
               lista.add(obj);
           }
       } catch (SQLException e) {
@@ -188,7 +205,7 @@ public class Venta {
     }
     
     
-     public static boolean venta_insertar(Venta venta) throws Exception
+     public static boolean ordenes_insertar(Ordenes ordenes) throws Exception
   {
       boolean respuesta=false;
       Conexion con = new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -198,16 +215,17 @@ public class Venta {
           //CREAMOS EL PRIMER COMANDO QUE SERA AÑADIDO AL ARRAYLIST D COMANDOS
           Comando cmd= new Comando();
           //SETEAMOS LA FUNCION AL COMAND0
-          cmd.setSetenciaSql("select * from public.venta_insertar(?,?,?,?,?,?)");
+          cmd.setSetenciaSql("select * from public.orden_insertar(?,?,?,?,?,?,?)");
           //CREAMOS EL ARRALIST DE PARAMETROS PARA ASIGANR A MI PRIMER COMANDO
           ArrayList<Parametro> parametros = new ArrayList<Parametro>();
           //llenamos el arraylist con todos los parametros
-          parametros.add(new Parametro(1, venta.getCliente().getClienteid()));
-          parametros.add(new Parametro(2, venta.getProducto().getProductoid()));
-          parametros.add(new Parametro(3, venta.getCantidad()));
-          parametros.add(new Parametro(4, venta.getPreciounitarioventa()));
-          parametros.add(new Parametro(5, venta.getFechatransaccion()));
-          parametros.add(new Parametro(6, venta.getNumerofactura()));
+          parametros.add(new Parametro(1, ordenes.getProveedores().getProveedorid()));
+          parametros.add(new Parametro(2, ordenes.getProducto().getProductoid()));
+          parametros.add(new Parametro(3, ordenes.getCantidad()));
+          parametros.add(new Parametro(4, ordenes.getPreciounitario()));
+          parametros.add(new Parametro(5, ordenes.getNumeroorden()));
+          parametros.add(new Parametro(6, ordenes.getEntregada()));
+           parametros.add(new Parametro(7, ordenes.getFechaentrega())); 
       
           //llenar el comando con los parametros
           cmd.setLstParametros(parametros);
@@ -226,7 +244,7 @@ public class Venta {
 
   }
     
-     public static boolean venta_editar(Venta venta) throws Exception
+     public static boolean ordenes_editar(Ordenes ordenes) throws Exception
   {
       boolean respuesta=false;
       Conexion con = new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -236,17 +254,18 @@ public class Venta {
           //CREAMOS EL PRIMER COMANDO QUE SERA AÑADIDO AL ARRAYLIST D COMANDOS
           Comando cmd= new Comando();
           //SETEAMOS LA FUNCION AL COMAND0
-          cmd.setSetenciaSql("select * from public.venta_editar(?,?,?,?,?,?,?)");
+          cmd.setSetenciaSql("select * from public.orden_editar(?,?,?,?,?,?,?,?)");
           //CREAMOS EL ARRALIST DE PARAMETROS PARA ASIGANR A MI PRIMER COMANDO
           ArrayList<Parametro> parametros = new ArrayList<Parametro>();
           //llenamos el arraylist con todos los parametros
-          parametros.add(new Parametro(1, venta.getVentaid()));
-          parametros.add(new Parametro(2, venta.getCliente().getClienteid()));
-          parametros.add(new Parametro(3, venta.getProducto().getProductoid()));
-          parametros.add(new Parametro(4, venta.getCantidad()));
-          parametros.add(new Parametro(5, venta.getPreciounitarioventa()));
-          parametros.add(new Parametro(6, venta.getFechatransaccion()));
-          parametros.add(new Parametro(7, venta.getNumerofactura()));
+          parametros.add(new Parametro(1, ordenes.getOrdenid()));
+          parametros.add(new Parametro(2, ordenes.getProveedores().getProveedorid()));
+          parametros.add(new Parametro(3, ordenes.getProducto().getProductoid()));
+          parametros.add(new Parametro(4, ordenes.getCantidad()));
+          parametros.add(new Parametro(5, ordenes.getPreciounitario()));
+          parametros.add(new Parametro(6, ordenes.getNumeroorden()));
+          parametros.add(new Parametro(7, ordenes.getEntregada()));
+           parametros.add(new Parametro(8, ordenes.getFechaentrega())); 
           
           //llenar el comando con los parametros
           cmd.setLstParametros(parametros);
@@ -265,7 +284,7 @@ public class Venta {
 
   }
      
-      public static boolean venta_eliminar(int piclienteid) throws Exception
+      public static boolean ordenes_eliminar(int piordenid) throws Exception
   {
       boolean respuesta=false;
       Conexion con = new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -275,11 +294,11 @@ public class Venta {
           //CREAMOS EL PRIMER COMANDO QUE SERA AÑADIDO AL ARRAYLIST D COMANDOS
           Comando cmd= new Comando();
           //SETEAMOS LA FUNCION AL COMAND0
-          cmd.setSetenciaSql("select * from public.venta_eliminar(?)");
+          cmd.setSetenciaSql("select * from public.orden_eliminar(?)");
           //CREAMOS EL ARRALIST DE PARAMETROS PARA ASIGANR A MI PRIMER COMANDO
           ArrayList<Parametro> parametros = new ArrayList<Parametro>();
           //llenamos el arraylist con todos los parametros
-          parametros.add(new Parametro(1, piclienteid));
+          parametros.add(new Parametro(1, piordenid));
           //llenar el comando con los parametros
           cmd.setLstParametros(parametros);
           comandos.add(cmd);

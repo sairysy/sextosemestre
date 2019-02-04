@@ -1,12 +1,12 @@
 
 
-<%@page import="ReglasDeNegocio.Producto"%>
+<%@page import="ReglasDeNegocio.Categoria"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
- List<Producto> lista=Producto.producto_buscartodos();
- Iterator<Producto> itProducto=lista.iterator();
+ List<Categoria> lista=Categoria.categoria_buscartodos();
+ Iterator<Categoria> itCategoria=lista.iterator();
 %>
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@
        
 
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
-        <title>Productos</title>
+        <title>Categorias</title>
     </head>
     <body>
          <!--Sección alerta-->
@@ -44,33 +44,31 @@
         </div>
        <% }%>
         <!--Fin Sección alerta-->
-         <h1>Productos</h1> 
+         <h1>Categorias</h1> 
            <button type="button" onclick="return modalnuevo();" class="btn btn-primary" data-toggle="modal" data-target="#ModalNuevo"> Nuevo</button>  
           
          
          
 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">                <thead>
                 <th>Id</th>
-                <th>Nombre</th>
-                <th>Categoria</th>
-                <th>Stock</th>
-                <th>Precio</th>                
-                             
+                <th>Nombre_Categoria </th>
+                <th>Descripcion</th>
+                
+                
                 <th></th>
                 </thead>
                 <tbody>
-               <%while(itProducto.hasNext()){
-                  Producto producto=itProducto.next();%>
+               <%while(itCategoria.hasNext()){
+                  Categoria categoria=itCategoria.next();%>
                 <tr>
-                   <td><%= producto.getProductoid()%></td>
-                    <td><%= producto.getNombreproducto()%></td>
-                    <td><%= producto.getCategoria()%></td>
-                    <td><%= producto.getStock()%></td>
-                    <td><%= producto.getPrecio()%></td>
+                   <td><%= categoria.getCategoriaid()%></td>
+                    <td><%= categoria.getNombre()%></td>
+                    <td><%= categoria.getDescripcion()%></td>
+                    
                    
                    <td>
-                         <a class="btn btn-danger" href='procesa_eliminar.jsp?codigo=<%= producto.getProductoid()%>' onclick="return confirm('¿Está seguro que desea eliminar este registro?');">Eliminar</a>
-                      <button type="button"  onclick="return modaleditar(<%= producto.getProductoid()%>)" class="btn btn-primary" data-toggle="modal" data-target="#ModalEditar">Editar</button>  
+                         <a class="btn btn-danger" href='procesa_eliminar.jsp?codigo=<%= categoria.getCategoriaid()%>' onclick="return confirm('¿Está seguro que desea eliminar este registro?');">Eliminar</a>
+                      <button type="button"  onclick="return modaleditar(<%= categoria.getCategoriaid()%>)" class="btn btn-primary" data-toggle="modal" data-target="#ModalEditar">Editar</button>  
 
                    </td>
                 </tr>
@@ -83,7 +81,7 @@
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Editar Producto</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Categoria</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -102,7 +100,7 @@
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Producto</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Categoria</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>

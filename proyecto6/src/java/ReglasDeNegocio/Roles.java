@@ -45,7 +45,10 @@ public class Roles {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-  
+  @Override
+    public String toString() {
+        return getNombre_rol();
+    }
     public static ArrayList<Roles> roles_buscartodos() throws Exception
     {
          //CREO LISTA QUE RECIBIRA LOS DATOS DEL RESULSET

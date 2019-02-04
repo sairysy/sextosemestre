@@ -56,7 +56,10 @@ public class Proveedores {
     public void setTelefefono(String telefefono) {
         this.telefefono = telefefono;
     }
-   
+   @Override
+    public String toString() {
+        return getNombreproveedor();
+    }
     public static ArrayList<Proveedores> proveedores_buscartodos() throws Exception
     {
          //CREO LISTA QUE RECIBIRA LOS DATOS DEL RESULSET

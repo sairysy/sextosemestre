@@ -1,73 +1,56 @@
-
 package ReglasDeNegocio;
-
-
-
 import AccesoADatos.*;
 import java.sql.*;
 import java.util.*;
+import java.sql.Time;
 
-
-public class Usuarios {
-  private int usuarioid;
-  private String nombre_usuario;
-  private String contrasenia;
-  private String cedula;
-  
-
-    public Usuarios() {
+public class Rolpagina {
+  private int rolpaginaid;
+   private Roles roles;
+   private Paginas paginas;
+   
+    public Rolpagina() {
     }
 
-    public Usuarios(int usuarioid, String nombre_usuario, String contrasenia, String cedula) {
-        this.usuarioid = usuarioid;
-        this.nombre_usuario = nombre_usuario;
-        this.contrasenia = contrasenia;
-        this.cedula = cedula;
+    public int getRolpaginaid() {
+        return rolpaginaid;
     }
 
-    public int getUsuarioid() {
-        return usuarioid;
+    public void setRolpaginaid(int rolpaginaid) {
+        this.rolpaginaid = rolpaginaid;
     }
 
-    public void setUsuarioid(int usuarioid) {
-        this.usuarioid = usuarioid;
+    public Roles getRoles() {
+        return roles;
     }
 
-    public String getNombre_usuario() {
-        return nombre_usuario;
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
 
-    public void setNombre_usuario(String nombre_usuario) {
-        this.nombre_usuario = nombre_usuario;
+    public Paginas getPaginas() {
+        return paginas;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public void setPaginas(Paginas paginas) {
+        this.paginas = paginas;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public Rolpagina(int rolpaginaid, Roles roles, Paginas paginas) {
+        this.rolpaginaid = rolpaginaid;
+        this.roles = roles;
+        this.paginas = paginas;
     }
 
-    public String getCedula() {
-        return cedula;
-    }
+   
 
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
- 
-   @Override
-    public String toString() {
-        return getNombre_usuario();
-    }
 
-  
-    public static ArrayList<Usuarios> usuarios_buscartodos() throws Exception
+    
+    public static ArrayList<Rolpagina> rolpagina_buscartodos() throws Exception
     {
          //CREO LISTA QUE RECIBIRA LOS DATOS DEL RESULSET
-        ArrayList<Usuarios> lista= new ArrayList<Usuarios>();
-          Usuarios obj= new Usuarios();
+        ArrayList<Rolpagina> lista= new ArrayList<Rolpagina>();
+          Rolpagina obj= new Rolpagina();
        ResultSet rs= null;
       //LLAMO LA CONEXION
       Conexion con= new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -76,7 +59,7 @@ public class Usuarios {
 
       try {
           //declaro mi sql
-          String sql= "select * from public.usuario_buscartodos()";
+          String sql= "select * from public.rolpagina_buscartodos()";
           //creo mi preparedstatement
           preStm=con.creaPreparedSmt(sql);
           //ejecuto el prepardestatement y le asigno a mi resulset
@@ -84,12 +67,16 @@ public class Usuarios {
           rs= con.ejecutaPrepared(preStm);
           obj=null;
           while (rs.next()) {
-              obj= new Usuarios();
-              obj.setUsuarioid(rs.getInt("pusuarioid"));
-              obj.setNombre_usuario(rs.getString("pnombre_usuario"));
-              obj.setContrasenia(rs.getString("pcontrasenia"));
-              obj.setCedula(rs.getString("pcedula"));
+              obj= new Rolpagina();
+              obj.setRolpaginaid(rs.getInt("prolpaginaid"));
               
+              Roles roles=new Roles();
+              Roles roless=roles.roles_buscarporid(rs.getInt("prolid"));
+              obj.setRoles(roless);
+           
+              Paginas paginas=new Paginas();
+              Paginas paginass=paginas.paginas_buscarporid(rs.getInt("ppaginaid"));
+              obj.setPaginas(paginass);
               lista.add(obj);
           }
       } catch (SQLException e) {
@@ -104,12 +91,15 @@ public class Usuarios {
             return lista;
 
     }
+
     
-    public static Usuarios usuarios_buscarporid(int piusuariosid) throws Exception
+    
+    
+    public static Rolpagina rolpagina_buscarporid(int pscactbevidenid) throws Exception
     {
          //CREO LISTA QUE RECIBIRA LOS DATOS DEL RESULSET
-       ArrayList<Usuarios> lista= new ArrayList<Usuarios>();
-       Usuarios obj= new Usuarios();
+       ArrayList<Rolpagina> lista= new ArrayList<Rolpagina>();
+       Rolpagina obj= new Rolpagina();
        ResultSet rs= null;
       //LLAMO LA CONEXION
       Conexion con= new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -118,20 +108,25 @@ public class Usuarios {
        
       try {
           //declaro mi sql
-          String sql= "select * from public.usuario_buscarporid(?)";
+          String sql= "select * from public.rolpagina_buscarporid(?)";
           //creo mi preparedstatement
           preStm=con.creaPreparedSmt(sql);
           //ejecuto el prepardestatement y le asigno a mi resulset
-          preStm.setInt(1, piusuariosid);
+          preStm.setInt(1, pscactbevidenid);
           rs= con.ejecutaPrepared(preStm);
           obj=null;
           while (rs.next()) {
-              obj= new Usuarios();
-              obj.setUsuarioid(rs.getInt("pusuarioid"));
-              obj.setNombre_usuario(rs.getString("pnombre_usuario"));
-              obj.setContrasenia(rs.getString("pcontrasenia"));
-              obj.setCedula(rs.getString("pcedula"));
-         
+              obj= new Rolpagina();
+              obj.setRolpaginaid(rs.getInt("prolpaginaid"));
+              
+               Roles roles=new Roles();
+              Roles roless=roles.roles_buscarporid(rs.getInt("prolid"));
+              obj.setRoles(roless);
+              
+              Paginas paginas=new Paginas();
+              Paginas paginass=paginas.paginas_buscarporid(rs.getInt("ppaginaid"));
+              obj.setPaginas(paginass);
+             
               
               lista.add(obj);
           }
@@ -149,7 +144,7 @@ public class Usuarios {
     }
     
     
-     public static boolean usuarios_insertar(Usuarios usuarios) throws Exception
+     public static boolean rolpagina_insertar(Rolpagina rolpagina) throws Exception
   {
       boolean respuesta=false;
       Conexion con = new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -159,16 +154,14 @@ public class Usuarios {
           //CREAMOS EL PRIMER COMANDO QUE SERA AÑADIDO AL ARRAYLIST D COMANDOS
           Comando cmd= new Comando();
           //SETEAMOS LA FUNCION AL COMAND0
-          cmd.setSetenciaSql("select * from public.usuario_insertar(?,?,?)");
+          cmd.setSetenciaSql("select * from public.rolpagina_insertar(?,?)");
           //CREAMOS EL ARRALIST DE PARAMETROS PARA ASIGANR A MI PRIMER COMANDO
           ArrayList<Parametro> parametros = new ArrayList<Parametro>();
           //llenamos el arraylist con todos los parametros
-           StringEncrypter encripter= new StringEncrypter("Aplicaciones web");
-          String ppasw=encripter.encrypt(usuarios.getContrasenia());
-          parametros.add(new Parametro(1, usuarios.getNombre_usuario()));
-          parametros.add(new Parametro(2, ppasw));
-          parametros.add(new Parametro(3, usuarios.getCedula()));
-          
+       
+          parametros.add(new Parametro(1, rolpagina.getRoles().getRolid()));
+          parametros.add(new Parametro(2, rolpagina.getPaginas().getPaginaid()));
+      
           //llenar el comando con los parametros
           cmd.setLstParametros(parametros);
           comandos.add(cmd);
@@ -186,7 +179,7 @@ public class Usuarios {
 
   }
     
-     public static boolean usuarios_editar(Usuarios usuarios) throws Exception
+     public static boolean rolpagina_editar(Rolpagina rolpagina) throws Exception
   {
       boolean respuesta=false;
       Conexion con = new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -196,19 +189,13 @@ public class Usuarios {
           //CREAMOS EL PRIMER COMANDO QUE SERA AÑADIDO AL ARRAYLIST D COMANDOS
           Comando cmd= new Comando();
           //SETEAMOS LA FUNCION AL COMAND0
-          cmd.setSetenciaSql("select * from public.usuario_editar(?,?,?,?)");
+          cmd.setSetenciaSql("select * from public.rolpagina_editar(?,?,?)");
           //CREAMOS EL ARRALIST DE PARAMETROS PARA ASIGANR A MI PRIMER COMANDO
           ArrayList<Parametro> parametros = new ArrayList<Parametro>();
           //llenamos el arraylist con todos los parametros
-
-          
-       
-          parametros.add(new Parametro(1, usuarios.getUsuarioid()));
-          parametros.add(new Parametro(2, usuarios.getNombre_usuario()));
-          parametros.add(new Parametro(3,usuarios.getContrasenia()));
-          parametros.add(new Parametro(4, usuarios.getCedula()));
-          
-        
+          parametros.add(new Parametro(1, rolpagina.getRolpaginaid()));
+           parametros.add(new Parametro(2, rolpagina.getRoles().getRolid()));
+          parametros.add(new Parametro(3, rolpagina.getPaginas().getPaginaid()));
           
           //llenar el comando con los parametros
           cmd.setLstParametros(parametros);
@@ -227,7 +214,7 @@ public class Usuarios {
 
   }
      
-      public static boolean usuarios_eliminar(int piusuarioid) throws Exception
+      public static boolean rolpagina_eliminar(int pirolpaginaid) throws Exception
   {
       boolean respuesta=false;
       Conexion con = new Conexion(Global.driver, Global.url, Global.user, Global.pass);
@@ -237,11 +224,11 @@ public class Usuarios {
           //CREAMOS EL PRIMER COMANDO QUE SERA AÑADIDO AL ARRAYLIST D COMANDOS
           Comando cmd= new Comando();
           //SETEAMOS LA FUNCION AL COMAND0
-          cmd.setSetenciaSql("select * from public.usuario_eliminar(?)");
+          cmd.setSetenciaSql("select * from public.rolpagina_eliminar(?)");
           //CREAMOS EL ARRALIST DE PARAMETROS PARA ASIGANR A MI PRIMER COMANDO
           ArrayList<Parametro> parametros = new ArrayList<Parametro>();
           //llenamos el arraylist con todos los parametros
-          parametros.add(new Parametro(1, piusuarioid));
+          parametros.add(new Parametro(1, pirolpaginaid));
           //llenar el comando con los parametros
           cmd.setLstParametros(parametros);
           comandos.add(cmd);

@@ -1,10 +1,10 @@
 
-<%@page import="ReglasDeNegocio.Producto"%>
+<%@page import="ReglasDeNegocio.Venta"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
 try {
-       boolean result =Producto.producto_eliminar(Integer.valueOf(request.getParameter("codigo")));
+       boolean result =Venta.venta_eliminar(Integer.valueOf(request.getParameter("codigo")));
         if (result)
                 out.println("<script> location.replace('listar.jsp?alerta=si');</script>");
             else 

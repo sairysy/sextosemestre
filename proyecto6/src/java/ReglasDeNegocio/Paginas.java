@@ -42,6 +42,11 @@ public class Paginas {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    @Override
+    public String toString() {
+        return getUrl();
+    }
 
     public static ArrayList<Paginas> paginas_buscartodos() throws Exception
     {

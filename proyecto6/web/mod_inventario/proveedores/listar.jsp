@@ -44,7 +44,7 @@
         </div>
        <% }%>
         <!--Fin Sección alerta-->
-         <h1>Proveedoress</h1> 
+         <h1>Proveedores</h1> 
            <button type="button" onclick="return modalnuevo();" class="btn btn-primary" data-toggle="modal" data-target="#ModalNuevo"> Nuevo</button>  
           
          
